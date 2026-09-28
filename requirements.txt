@@ -1,0 +1,6 @@
+pandas
+openai
+mysql-connector-python
+sqlalchemy
+scikit-learn
+numpy
