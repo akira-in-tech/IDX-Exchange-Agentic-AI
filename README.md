@@ -29,6 +29,10 @@ Initial setup includes:
 - WhatsApp channel configuration
 - End-to-end communication testing
 
+## Week 1: Architecture Fundamentals
+
+The OpenClaw system design, component responsibilities, session and memory boundaries, MLS database routing, and end-to-end WhatsApp workflow are documented in [docs/week-1-architecture.md](docs/week-1-architecture.md).
+
 ## Repository Structure
 
 ```text
