@@ -33,6 +33,16 @@ Initial setup includes:
 
 The OpenClaw system design, component responsibilities, session and memory boundaries, MLS database routing, and end-to-end WhatsApp workflow are documented in [docs/week-1-architecture.md](docs/week-1-architecture.md).
 
+## Week 2: Natural-Language Property Search
+
+The deterministic `parse_property_query` skill converts free-text property requests into structured MLS filters. See [docs/week-2-property-query-skill.md](docs/week-2-property-query-skill.md) for supported filters, field mappings, examples, and test instructions.
+
+Run the 15-test validation suite with:
+
+```bash
+npm test
+```
+
 ## Repository Structure
 
 ```text
