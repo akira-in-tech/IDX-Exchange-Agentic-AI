@@ -14,10 +14,10 @@ Tests: [`tests/property-query.test.ts`](../tests/property-query.test.ts)
 |---|---|---|
 | `city` | `L_City` | `"Irvine"` |
 | `maxPrice` | `L_SystemPrice` | `1500000` |
-| `minBeds` | `L_Keyword2` | `3` |
-| `minBaths` | `LM_Dec_3` | `2.5` |
-| `minSqft` | `LM_Int2_3` | `1800` |
-| `propertyType` | `L_Type_` | `"Condominium"` |
+| `beds` | `L_Keyword2` | `3` |
+| `baths` | `LM_Dec_3` | `2.5` |
+| `sqft` | `LM_Int2_3` | `1800` |
+| `type` | `L_Type_` | `"Condominium"` |
 | `pool` | `PoolPrivateYN` | `"True"` |
 | `hasView` | `ViewYN` | `"True"` |
 | `maxHoa` | `AssociationFee` | `500` |
@@ -38,10 +38,10 @@ Output:
 {
   "city": "Irvine",
   "maxPrice": 1500000,
-  "minBeds": 3,
-  "minBaths": null,
-  "minSqft": null,
-  "propertyType": "Condominium",
+  "beds": 3,
+  "baths": null,
+  "sqft": null,
+  "type": "Condominium",
   "pool": "True",
   "hasView": null,
   "maxHoa": null
@@ -56,7 +56,26 @@ Node.js 22.18 or newer is required because the tests use Node's built-in TypeScr
 npm test
 ```
 
-The suite contains 15 tests and covers the handbook example, multi-word cities, abbreviated and comma-formatted prices, decimal bathrooms, square footage, property types, positive and negative amenities, HOA limits, missing filters, Unicode hyphens, invalid input, and the skill adapter.
+The suite contains 17 tests and covers the handbook example, multi-word cities, abbreviated and comma-formatted prices, decimal bathrooms, square footage, property types, positive and negative amenities, HOA limits, missing filters, Unicode hyphens, invalid input, the typed adapter, the OpenClaw entry, and the installed skill helper.
+
+## OpenClaw registration
+
+The repository includes a native workspace skill entry at [`skills/property-search-parser/SKILL.md`](../skills/property-search-parser/SKILL.md). OpenClaw discovers `SKILL.md` files below the active workspace's `skills/` directory and exposes this skill as `/property-search-parser`.
+
+Verify registration from an OpenClaw workspace rooted at this repository:
+
+```bash
+openclaw skills info property-search-parser
+openclaw skills check
+```
+
+Invoke it from an OpenClaw chat with:
+
+```text
+/property-search-parser Show me 3-bedroom condos in Irvine under $1.5M with a pool.
+```
+
+The skill calls its deterministic helper and returns only the structured JSON filter object.
 
 ## Scope boundary
 
