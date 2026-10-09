@@ -1,3 +1,9 @@
+/**
+ * Week 2 acceptance suite.
+ *
+ * Most tests exercise real user wording. The final tests also verify the
+ * OpenClaw packaging boundary and command-line JSON contract.
+ */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -9,6 +15,8 @@ import {
   type PropertyFilters,
 } from "../src/skills/property-query.ts";
 
+// Every response contains every public key. Test cases only specify the fields
+// that should be populated, while this helper confirms all others stay null.
 function expectFilters(query: string, expected: Partial<PropertyFilters>) {
   const actual = parsePropertyQuery(query);
   assert.deepEqual(actual, {
