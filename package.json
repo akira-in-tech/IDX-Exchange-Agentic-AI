@@ -1,12 +1,16 @@
 {
   "name": "idx-exchange-agentic-ai",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.18"
   },
   "scripts": {
-    "test": "node --test tests/**/*.test.ts"
+    "test": "node --test tests/**/*.test.ts",
+    "test:db": "RUN_DB_TESTS=1 node --test tests/mls-database-search.integration.test.ts"
+  },
+  "dependencies": {
+    "mysql2": "^3.24.6"
   }
 }

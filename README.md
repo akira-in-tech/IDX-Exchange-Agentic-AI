@@ -43,6 +43,10 @@ Run the validation suite with:
 npm test
 ```
 
+## Week 3: MLS Database Integration
+
+The `mls-database-search` OpenClaw skill turns Week 2 filters into parameterized MySQL queries over `rets_property` and `california_sold`, enforces pagination and a 50-row cap, and returns readable property cards. See [docs/week-3-mls-database-integration.md](docs/week-3-mls-database-integration.md) for setup, tests, demo commands, and OpenClaw registration.
+
 ## Repository Structure
 
 ```text
