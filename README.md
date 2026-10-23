@@ -47,6 +47,10 @@ npm test
 
 The `mls-database-search` OpenClaw skill turns Week 2 filters into parameterized MySQL queries over `rets_property` and `california_sold`, enforces pagination and a 50-row cap, and returns readable property cards. See [docs/week-3-mls-database-integration.md](docs/week-3-mls-database-integration.md) for setup, tests, demo commands, and OpenClaw registration.
 
+## Week 4: Conversational Property Search
+
+The `conversational-property-search` OpenClaw skill adds isolated 24-hour user sessions, focused follow-up questions, iterative filter refinement, and live `rets_property` cards. See [docs/week-4-conversational-property-search.md](docs/week-4-conversational-property-search.md) for the flow, security model, tests, registration, and demo commands.
+
 ## Repository Structure
 
 ```text

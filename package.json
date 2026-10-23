@@ -1,6 +1,6 @@
 {
   "name": "idx-exchange-agentic-ai",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node --test tests/**/*.test.ts",
-    "test:db": "RUN_DB_TESTS=1 node --test tests/mls-database-search.integration.test.ts"
+    "test:db": "RUN_DB_TESTS=1 node --test tests/mls-database-search.integration.test.ts",
+    "test:conversation-db": "RUN_DB_TESTS=1 node --test tests/conversational-property-search.integration.test.ts"
   },
   "dependencies": {
     "mysql2": "^3.24.6"
