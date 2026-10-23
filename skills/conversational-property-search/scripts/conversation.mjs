@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { handleConversationMessage } from "./conversation-agent.mjs";
+import { closePool } from "../../mls-database-search/scripts/database.mjs";
 
 function option(args, name) {
   const index = args.indexOf(name);
@@ -20,11 +21,17 @@ async function main() {
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 }
 
-main().catch((error) => {
+try {
+  await main();
+} catch (error) {
   // Keep infrastructure details and database credentials out of chat output.
   const safeMessage = error instanceof RangeError || error instanceof TypeError || error.message === usage()
     ? error.message
     : "Property search is temporarily unavailable. Please try again shortly.";
   process.stderr.write(`${safeMessage}\n`);
   process.exitCode = 1;
-});
+} finally {
+  // mysql2 pools keep Node's event loop alive. Closing the lazily-created pool
+  // makes every OpenClaw helper invocation finish after it prints its result.
+  await closePool();
+}

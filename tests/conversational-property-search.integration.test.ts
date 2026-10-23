@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -30,4 +31,30 @@ test("runs a three-turn conversation against rets_property", { skip: !runLive },
   } finally {
     await closePool();
   }
+});
+
+test("CLI exits cleanly after returning live database results", { skip: !runLive }, async () => {
+  const directory = await mkdtemp(join(tmpdir(), "idx-week4-cli-live-"));
+  const result = spawnSync(process.execPath, [
+    "skills/conversational-property-search/scripts/conversation.mjs",
+    "--user-id", "cli-live-user",
+    "--message", "Show me 2 bedroom homes in Irvine under $2M",
+    "--limit", "1",
+  ], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    env: { ...process.env, IDX_SESSION_STORE: directory },
+    timeout: 5_000,
+  });
+
+  assert.equal(result.error, undefined);
+  assert.equal(result.status, 0);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.status, "results");
+  assert.equal(output.listings.length, 1);
+  assert.ok(output.listings[0].L_Address);
+  assert.ok(Number(output.listings[0].price) > 0);
+  assert.ok(Number(output.listings[0].beds) >= 2);
+  assert.notEqual(output.listings[0].baths, undefined);
+  assert.notEqual(output.listings[0].PhotoCount, undefined);
 });
