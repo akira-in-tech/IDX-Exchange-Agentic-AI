@@ -12,8 +12,8 @@
     "test:conversation-db": "RUN_DB_TESTS=1 node --test tests/conversational-property-search.integration.test.ts",
     "test:market-db": "RUN_DB_TESTS=1 node --test tests/market-statistics.integration.test.ts",
     "test:semantic-db": "RUN_DB_TESTS=1 node --test tests/semantic-property-search.integration.test.ts",
-    "test:embeddings": "RUN_GEMINI_TESTS=1 node --test tests/semantic-property-search.integration.test.ts",
-    "test:embeddings:openai": "RUN_OPENAI_TESTS=1 node --test tests/semantic-property-search.integration.test.ts"
+    "test:embeddings": "RUN_GEMINI_TESTS=1 node --env-file=.env --test tests/semantic-property-search.integration.test.ts",
+    "test:embeddings:openai": "RUN_OPENAI_TESTS=1 node --env-file=.env --test tests/semantic-property-search.integration.test.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",
