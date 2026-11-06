@@ -51,6 +51,10 @@ The `mls-database-search` OpenClaw skill turns Week 2 filters into parameterized
 
 The `conversational-property-search` OpenClaw skill adds isolated 24-hour user sessions, focused follow-up questions, iterative filter refinement, and live `rets_property` cards. See [docs/week-4-conversational-property-search.md](docs/week-4-conversational-property-search.md) for the flow, security model, tests, registration, and demo commands.
 
+## Week 5: Market Statistics Agent
+
+The `market-statistics` OpenClaw skill calculates median and average close price, price per square foot, days on market, list-to-close ratio, inventory, and monthly trends from live MLS tables. See [docs/week-5-market-statistics.md](docs/week-5-market-statistics.md).
+
 ## Repository Structure
 
 ```text
