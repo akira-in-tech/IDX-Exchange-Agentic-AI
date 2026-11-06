@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** Administrative CLI for creating a bounded demo index or a full index. */
 import { closePool } from "../../mls-database-search/scripts/database.mjs";
 import { buildSemanticIndex } from "./build-index.mjs";
 

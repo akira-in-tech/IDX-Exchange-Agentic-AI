@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** Command-line entry point for sending one message through the Week 4 agent. */
 import { handleConversationMessage } from "./conversation-agent.mjs";
 import { closePool } from "../../mls-database-search/scripts/database.mjs";
 

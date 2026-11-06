@@ -1,3 +1,8 @@
+/**
+ * Week 6 ranking pipeline: embed query, stream cosine scores, then hydrate the
+ * best IDs from live MLS data. Provider/model checks prevent comparing vectors
+ * created in incompatible embedding spaces even when dimensions happen to fit.
+ */
 import { formatActiveListingCards } from "../../mls-database-search/scripts/format-results.mjs";
 import { createEmbeddingClient, normalizeEmbeddingText } from "./embedding-client.mjs";
 import { hydrateActiveListings } from "./listing-source.mjs";
@@ -7,6 +12,7 @@ export function cosineSimilarity(left, right) {
   if (!Array.isArray(left) || !Array.isArray(right) || left.length === 0 || left.length !== right.length) {
     throw new TypeError("vectors must be non-empty arrays with equal dimensions");
   }
+  // cosine(a,b) = dot(a,b) / (length(a) * length(b)).
   let dot = 0;
   let leftNorm = 0;
   let rightNorm = 0;

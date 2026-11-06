@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+/** CLI bridge from a free-text query to parsed filters and live MLS results. */
 import { parsePropertyQuery } from "../../property-search-parser/scripts/property-query-parser.mjs";
 import { closePool } from "./database.mjs";
 import { formatActiveListingCards, formatSoldCompCards } from "./format-results.mjs";

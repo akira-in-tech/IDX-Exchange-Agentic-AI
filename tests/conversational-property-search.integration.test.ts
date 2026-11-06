@@ -1,3 +1,7 @@
+/**
+ * Opt-in Week 4 integration tests. These touch the local MLS database and are
+ * skipped during ordinary unit-test runs unless RUN_DB_TESTS=1 is supplied.
+ */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdtemp } from "node:fs/promises";

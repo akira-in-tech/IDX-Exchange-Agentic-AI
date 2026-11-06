@@ -1,3 +1,10 @@
+/**
+ * Week 4 conversation orchestrator.
+ *
+ * It combines the deterministic Week 2 parser, the Week 3 MLS query layer, and
+ * a per-user session store. Keeping orchestration here makes the same behavior
+ * available to OpenClaw, the CLI, and automated tests.
+ */
 import { parsePropertyQuery } from "../../property-search-parser/scripts/property-query-parser.mjs";
 import { formatActiveListingCards } from "../../mls-database-search/scripts/format-results.mjs";
 import { searchActiveListings } from "../../mls-database-search/scripts/mls-query.mjs";

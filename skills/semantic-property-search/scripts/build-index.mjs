@@ -1,3 +1,8 @@
+/**
+ * Batch index builder for Week 6 semantic search.
+ * Listings are read with keyset pagination, embedded in bounded batches, and
+ * streamed to an atomic JSONL writer so large indexes do not fill memory.
+ */
 import { createIndexWriter, defaultIndexPath } from "./vector-store.mjs";
 import { createEmbeddingClient } from "./embedding-client.mjs";
 import {

@@ -1,3 +1,10 @@
+/**
+ * Week 3 query builder and database facade.
+ *
+ * The parser's public filter names are translated to legacy MLS columns here.
+ * All values remain prepared-statement parameters, and result limits protect
+ * chat clients from accidentally retrieving an unbounded property dataset.
+ */
 import { query } from "./database.mjs";
 
 export const MAX_PAGE_SIZE = 50;

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** User-facing CLI that embeds a description and prints the closest listings. */
 import { closePool } from "../../mls-database-search/scripts/database.mjs";
 import { formatSemanticResults, searchSemanticListings } from "./semantic-search.mjs";
 

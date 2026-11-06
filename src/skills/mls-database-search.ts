@@ -1,3 +1,7 @@
+/**
+ * Typed facade over the self-contained Week 3 OpenClaw runtime.
+ * Runtime JavaScript remains inside `skills/` so OpenClaw can install it alone.
+ */
 import {
   getSoldComps as getSoldCompsRuntime,
   searchActiveListings as searchActiveListingsRuntime,

@@ -1,3 +1,9 @@
+/**
+ * Private, file-backed conversation state for OpenClaw channel users.
+ * User IDs are hashed before becoming filenames, writes are atomic, and stale
+ * sessions expire so raw channel identifiers and indefinite history are not
+ * retained on disk.
+ */
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";

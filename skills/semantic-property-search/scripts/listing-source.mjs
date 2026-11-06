@@ -1,3 +1,8 @@
+/**
+ * Live MLS source for semantic indexing and result hydration.
+ * Index construction stores only listing IDs and vectors; search results are
+ * re-read from MySQL so inactive or changed listings are not shown as current.
+ */
 import { query } from "../../mls-database-search/scripts/database.mjs";
 
 export const MAX_SOURCE_BATCH_SIZE = 100;

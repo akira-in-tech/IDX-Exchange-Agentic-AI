@@ -1,3 +1,4 @@
+/** Week 3 unit tests verify validation, parameterization, formatting, and CLI behavior. */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import test from "node:test";

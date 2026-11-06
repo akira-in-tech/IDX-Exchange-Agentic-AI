@@ -1,3 +1,9 @@
+/**
+ * Provider adapters for converting listing text into numeric vectors.
+ * Gemini is the project default; OpenAI remains available for compatibility.
+ * Both adapters expose the same small interface so tests can inject a free,
+ * deterministic implementation instead of making paid network calls.
+ */
 import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
 

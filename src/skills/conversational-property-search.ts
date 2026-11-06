@@ -1,3 +1,4 @@
+/** Typed application adapter for the installable Week 4 OpenClaw runtime. */
 import { handleConversationMessage as runtimeHandler } from "../../skills/conversational-property-search/scripts/conversation-agent.mjs";
 import type { ActiveListing } from "./mls-database-search.ts";
 import type { PropertyFilters } from "./property-query.ts";

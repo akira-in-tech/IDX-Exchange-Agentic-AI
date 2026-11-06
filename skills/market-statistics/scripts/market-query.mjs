@@ -1,3 +1,10 @@
+/**
+ * Week 5 market-statistics data layer.
+ *
+ * Queries are returned as `{sql, params}` pairs so user-provided cities never
+ * enter SQL text. `CloseDate` is parsed because the source MLS table stores it
+ * as text; future and invalid dates are excluded from historical reporting.
+ */
 import { query } from "../../mls-database-search/scripts/database.mjs";
 
 export const MAX_TREND_MONTHS = 60;

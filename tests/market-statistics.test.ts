@@ -1,3 +1,4 @@
+/** Week 5 unit tests cover SQL safety, trend math, orchestration, and output. */
 import assert from "node:assert/strict";
 import test from "node:test";
 

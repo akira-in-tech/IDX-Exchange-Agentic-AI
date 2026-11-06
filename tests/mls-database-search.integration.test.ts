@@ -1,3 +1,4 @@
+/** Live Week 3 database tests; ordinary `npm test` deliberately skips them. */
 import assert from "node:assert/strict";
 import test from "node:test";
 

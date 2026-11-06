@@ -1,3 +1,7 @@
+/**
+ * Week 6 unit suite. Provider clients and listing sources are mocked so normal
+ * tests are deterministic, offline, and cannot spend embedding API credits.
+ */
 import assert from "node:assert/strict";
 import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";

@@ -1,3 +1,4 @@
+/** Presentation helpers intentionally contain no database or business logic. */
 function money(value) {
   return value === null ? "N/A" : `$${Math.round(value).toLocaleString("en-US")}`;
 }

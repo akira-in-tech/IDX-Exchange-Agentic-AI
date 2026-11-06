@@ -1,6 +1,8 @@
+/** Shared MySQL pool used by every live MLS skill; credentials stay in env. */
 import mysql from "mysql2/promise";
 
 const DEFAULT_CONNECTION_LIMIT = 5;
+// Lazily initialized so importing a module never opens a database connection.
 let pool;
 
 function positiveInteger(value, fallback) {

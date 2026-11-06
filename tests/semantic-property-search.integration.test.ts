@@ -1,3 +1,7 @@
+/**
+ * Week 6 integration boundaries are independently gated: MySQL, Gemini, and
+ * OpenAI tests run only when their explicit flags and credentials are present.
+ */
 import assert from "node:assert/strict";
 import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";

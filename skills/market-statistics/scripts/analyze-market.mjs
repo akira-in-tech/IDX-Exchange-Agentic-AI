@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/** CLI adapter: validate arguments, run Week 5 analysis, print JSON, and exit. */
 import { closePool } from "../../mls-database-search/scripts/database.mjs";
 import { formatMarketSummary } from "./format-market-summary.mjs";
 import { getMarketStatistics } from "./market-query.mjs";

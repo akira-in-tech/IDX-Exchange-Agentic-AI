@@ -1,3 +1,8 @@
+/**
+ * Minimal disk-backed vector store implemented as newline-delimited JSON.
+ * The format is inspectable, streamable, private to the local machine, and
+ * sufficient for the internship dataset without introducing a vector DB.
+ */
 import { createReadStream, createWriteStream } from "node:fs";
 import { access, mkdir, rename, rm } from "node:fs/promises";
 import { homedir } from "node:os";

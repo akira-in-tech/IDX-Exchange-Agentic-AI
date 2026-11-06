@@ -1,3 +1,4 @@
+/** Public TypeScript contract for consumers of the Week 5 runtime skill. */
 import { getMarketStatistics as runtimeGetMarketStatistics } from "../../skills/market-statistics/scripts/market-query.mjs";
 
 export interface MonthlyMarketTrend {

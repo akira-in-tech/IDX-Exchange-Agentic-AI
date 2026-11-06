@@ -1,3 +1,4 @@
+/** Live Week 5 acceptance tests; gated to avoid implicit database access. */
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import test from "node:test";

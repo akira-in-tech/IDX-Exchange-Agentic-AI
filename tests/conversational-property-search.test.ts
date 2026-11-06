@@ -1,3 +1,4 @@
+/** Week 4 unit tests use injected fakes and temporary session directories. */
 import assert from "node:assert/strict";
 import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";

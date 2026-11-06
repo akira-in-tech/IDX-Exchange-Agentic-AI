@@ -1,3 +1,4 @@
+/** Convert normalized database rows into human-readable terminal/chat cards. */
 function display(value, fallback = "N/A") {
   return value === null || value === undefined || value === "" ? fallback : String(value);
 }
