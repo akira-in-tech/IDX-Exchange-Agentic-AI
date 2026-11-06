@@ -33,13 +33,14 @@ async function writeLine(stream, value) {
 }
 
 /** Atomic JSONL writer so an interrupted build never replaces a valid index. */
-export async function createIndexWriter({ path = defaultIndexPath(), model, dimensions }) {
+export async function createIndexWriter({ path = defaultIndexPath(), provider, model, dimensions }) {
   await mkdir(dirname(path), { recursive: true, mode: 0o700 });
   const temporaryPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
   const stream = createWriteStream(temporaryPath, { encoding: "utf8", mode: 0o600 });
   await writeLine(stream, {
     recordType: "metadata",
     version: INDEX_VERSION,
+    provider,
     model,
     dimensions,
     createdAt: new Date().toISOString(),

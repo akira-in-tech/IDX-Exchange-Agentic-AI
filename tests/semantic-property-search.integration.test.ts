@@ -6,12 +6,16 @@ import test from "node:test";
 
 import { closePool } from "../skills/mls-database-search/scripts/database.mjs";
 import { buildSemanticIndex } from "../skills/semantic-property-search/scripts/build-index.mjs";
-import { createOpenAIEmbeddingClient } from "../skills/semantic-property-search/scripts/embedding-client.mjs";
+import {
+  createGeminiEmbeddingClient,
+  createOpenAIEmbeddingClient,
+} from "../skills/semantic-property-search/scripts/embedding-client.mjs";
 import { fetchActiveListingsForEmbedding } from "../skills/semantic-property-search/scripts/listing-source.mjs";
 import { searchSemanticListings } from "../skills/semantic-property-search/scripts/semantic-search.mjs";
 
 const runDatabase = process.env.RUN_DB_TESTS === "1";
 const runOpenAI = process.env.RUN_OPENAI_TESTS === "1" && Boolean(process.env.OPENAI_API_KEY);
+const runGemini = process.env.RUN_GEMINI_TESTS === "1" && Boolean(process.env.GEMINI_API_KEY);
 
 function deterministicVector(text: string): number[] {
   const normalized = text.toLowerCase();
@@ -61,5 +65,13 @@ test("calls the real OpenAI embeddings API when explicitly enabled", { skip: !ru
   const vectors = await client.embedMany(["craftsman home", "modern condominium"]);
   assert.equal(vectors.length, 2);
   assert.equal(vectors[0].length, 256);
+  assert.notDeepEqual(vectors[0], vectors[1]);
+});
+
+test("calls the real Gemini embeddings API when explicitly enabled", { skip: !runGemini }, async () => {
+  const client = createGeminiEmbeddingClient({ dimensions: 768 });
+  const vectors = await client.embedMany(["craftsman home", "modern condominium"]);
+  assert.equal(vectors.length, 2);
+  assert.equal(vectors[0].length, 768);
   assert.notDeepEqual(vectors[0], vectors[1]);
 });

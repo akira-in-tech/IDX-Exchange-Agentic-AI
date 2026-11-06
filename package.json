@@ -1,6 +1,6 @@
 {
   "name": "idx-exchange-agentic-ai",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -12,9 +12,11 @@
     "test:conversation-db": "RUN_DB_TESTS=1 node --test tests/conversational-property-search.integration.test.ts",
     "test:market-db": "RUN_DB_TESTS=1 node --test tests/market-statistics.integration.test.ts",
     "test:semantic-db": "RUN_DB_TESTS=1 node --test tests/semantic-property-search.integration.test.ts",
-    "test:embeddings": "RUN_OPENAI_TESTS=1 node --test tests/semantic-property-search.integration.test.ts"
+    "test:embeddings": "RUN_GEMINI_TESTS=1 node --test tests/semantic-property-search.integration.test.ts",
+    "test:embeddings:openai": "RUN_OPENAI_TESTS=1 node --test tests/semantic-property-search.integration.test.ts"
   },
   "dependencies": {
+    "@google/genai": "^3.0.0",
     "mysql2": "^3.24.6",
     "openai": "^7.53.0"
   }

@@ -6,6 +6,8 @@ import test from "node:test";
 
 import {
   MAX_EMBEDDING_TEXT_CHARS,
+  createEmbeddingClient,
+  createGeminiEmbeddingClient,
   createOpenAIEmbeddingClient,
   normalizeEmbeddingText,
 } from "../skills/semantic-property-search/scripts/embedding-client.mjs";
@@ -57,6 +59,34 @@ test("OpenAI adapter follows the official embeddings request shape", async () =>
     encoding_format: "float",
   });
   assert.deepEqual(embeddings, [[1, 0], [0, 1]]);
+});
+
+test("Gemini adapter uses document and query retrieval task types", async () => {
+  const requests: Array<Record<string, unknown>> = [];
+  const client = {
+    models: {
+      embedContent: async (request: Record<string, unknown>) => {
+        requests.push(request);
+        const contents = request.contents as string[];
+        return { embeddings: contents.map((_, index) => ({ values: [index, 1] })) };
+      },
+    },
+  };
+  const gemini = createGeminiEmbeddingClient({ client, model: "gemini-embedding-001", dimensions: 2 });
+  assert.deepEqual(await gemini.embedMany(["first", "second"]), [[0, 1], [1, 1]]);
+  assert.deepEqual(await gemini.embedOne("query"), [0, 1]);
+  assert.deepEqual(requests[0], {
+    model: "gemini-embedding-001",
+    contents: ["first", "second"],
+    config: { outputDimensionality: 2, taskType: "RETRIEVAL_DOCUMENT" },
+  });
+  assert.deepEqual((requests[1].config as Record<string, unknown>).taskType, "RETRIEVAL_QUERY");
+});
+
+test("provider selection defaults to Gemini and retains OpenAI support", () => {
+  const mockGemini = { models: { embedContent: async () => ({ embeddings: [] }) } };
+  assert.equal(createEmbeddingClient({ client: mockGemini }).provider, "gemini");
+  assert.throws(() => createEmbeddingClient({ provider: "unknown" }), /Unsupported embedding provider/);
 });
 
 test("builds parameterized active-listing source and hydration SQL", () => {
@@ -123,6 +153,24 @@ test("ranks the most similar vectors first", async () => {
   ]);
   const ranked = await rankSemanticCandidates({ query: "craftsman", queryEmbedding: [1, 0, 0], path });
   assert.deepEqual(ranked.candidates.map((item) => item.listingId), ["high", "low"]);
+});
+
+test("rejects an index built by a different embedding provider", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "idx-week6-provider-"));
+  const path = join(directory, "index.jsonl");
+  const writer = await createIndexWriter({ path, provider: "openai", model: "old-model", dimensions: 3 });
+  await writer.append({ listingId: "1", embedding: [1, 0, 0] });
+  await writer.commit();
+  await assert.rejects(
+    rankSemanticCandidates({
+      query: "home",
+      queryEmbedding: [1, 0, 0],
+      path,
+      expectedProvider: "gemini",
+      expectedModel: "gemini-embedding-001",
+    }),
+    /does not match query provider/,
+  );
 });
 
 test("returns only hydrated active listings and formats scores", async () => {

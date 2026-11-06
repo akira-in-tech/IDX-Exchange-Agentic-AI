@@ -27,7 +27,7 @@ try {
   await main();
 } catch (error) {
   const safeMessage = error instanceof TypeError || error instanceof RangeError || error.message === usage()
-    || /OPENAI_API_KEY|Semantic index/.test(error.message)
+    || /GEMINI_API_KEY|OPENAI_API_KEY|Semantic index/.test(error.message)
     ? error.message
     : "Semantic property search is temporarily unavailable. Please try again shortly.";
   process.stderr.write(`${safeMessage}\n`);

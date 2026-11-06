@@ -1,5 +1,5 @@
 import { createIndexWriter, defaultIndexPath } from "./vector-store.mjs";
-import { createOpenAIEmbeddingClient } from "./embedding-client.mjs";
+import { createEmbeddingClient } from "./embedding-client.mjs";
 import {
   buildListingEmbeddingText,
   fetchActiveListingsForEmbedding,
@@ -18,7 +18,7 @@ export async function buildSemanticIndex({
   limit,
   batchSize = 50,
   path = defaultIndexPath(),
-  embeddingClient = createOpenAIEmbeddingClient(),
+  embeddingClient = createEmbeddingClient(),
   fetchListings = fetchActiveListingsForEmbedding,
 } = {}) {
   const safeLimit = requireBuildLimit(limit);
@@ -27,6 +27,7 @@ export async function buildSemanticIndex({
   }
   const writer = await createIndexWriter({
     path,
+    provider: embeddingClient.provider,
     model: embeddingClient.model,
     dimensions: embeddingClient.dimensions,
   });

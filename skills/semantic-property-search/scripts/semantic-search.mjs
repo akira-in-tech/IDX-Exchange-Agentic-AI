@@ -1,5 +1,5 @@
 import { formatActiveListingCards } from "../../mls-database-search/scripts/format-results.mjs";
-import { createOpenAIEmbeddingClient, normalizeEmbeddingText } from "./embedding-client.mjs";
+import { createEmbeddingClient, normalizeEmbeddingText } from "./embedding-client.mjs";
 import { hydrateActiveListings } from "./listing-source.mjs";
 import { defaultIndexPath, scanIndex } from "./vector-store.mjs";
 
@@ -30,13 +30,26 @@ function requireTopK(value) {
 }
 
 /** Stream the index and retain only the best candidates in memory. */
-export async function rankSemanticCandidates({ query, queryEmbedding, path, candidateCount = 25 }) {
+export async function rankSemanticCandidates({
+  query,
+  queryEmbedding,
+  path,
+  candidateCount = 25,
+  expectedProvider,
+  expectedModel,
+}) {
   normalizeEmbeddingText(query);
   if (!Array.isArray(queryEmbedding) || queryEmbedding.length === 0) {
     throw new TypeError("queryEmbedding must be a non-empty vector");
   }
   const candidates = [];
   const scan = await scanIndex(path, async (record, metadata) => {
+    if (expectedProvider && metadata?.provider && metadata.provider !== expectedProvider) {
+      throw new Error(`Index provider ${metadata.provider} does not match query provider ${expectedProvider}`);
+    }
+    if (expectedModel && metadata?.model && metadata.model !== expectedModel) {
+      throw new Error(`Index model ${metadata.model} does not match query model ${expectedModel}`);
+    }
     if (metadata && queryEmbedding.length !== metadata.dimensions) {
       throw new Error(`Query embedding has ${queryEmbedding.length} dimensions; index requires ${metadata.dimensions}`);
     }
@@ -55,13 +68,15 @@ export async function searchSemanticListings({
   hydrateListings = hydrateActiveListings,
 } = {}) {
   const safeTopK = requireTopK(topK);
-  const client = embeddingClient ?? createOpenAIEmbeddingClient();
+  const client = embeddingClient ?? createEmbeddingClient();
   const queryEmbedding = await client.embedOne(query);
   const ranked = await rankSemanticCandidates({
     query,
     queryEmbedding,
     path,
     candidateCount: Math.min(safeTopK * 5, 100),
+    expectedProvider: client.provider,
+    expectedModel: client.model,
   });
   if (ranked.candidates.length === 0) {
     return { query, results: [], ...ranked };

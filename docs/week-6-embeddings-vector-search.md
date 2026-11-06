@@ -1,6 +1,6 @@
 # Week 6: Embeddings and Vector Search
 
-The `semantic-property-search` OpenClaw skill uses OpenAI embeddings and cosine
+The `semantic-property-search` OpenClaw skill uses Gemini embeddings and cosine
 similarity to find active properties whose descriptions match a free-text idea,
 even when the words are not exact keyword matches.
 
@@ -9,26 +9,28 @@ even when the words are not exact keyword matches.
 ```text
 active rets_property rows with L_Remarks
   -> type, city, beds, baths, sqft, year, price, remarks
-  -> OpenAI text-embedding-3-small (256 dimensions)
+  -> Gemini gemini-embedding-001 (768 dimensions)
   -> private local JSONL index
 
 free-text query
-  -> same OpenAI embedding model
+  -> same Gemini embedding model
   -> cosine similarity against streamed index
   -> best candidates
   -> live rets_property active-status recheck
   -> top 5 property cards with similarity scores
 ```
 
-OpenAI's official embeddings guide documents `openai.embeddings.create`, the
-`text-embedding-3-small` model, shortened dimensions, and cosine similarity.
+Google's official Gemini embeddings documentation defines `embedContent`,
+retrieval task types, reduced output dimensions, and semantic search usage.
+The code also retains the previous OpenAI provider as an optional fallback.
 
 ## Configuration
 
 Set secrets outside Git:
 
 ```bash
-export OPENAI_API_KEY='<your key>'
+export EMBEDDING_PROVIDER=gemini
+export GEMINI_API_KEY='<your key>'
 export IDX_SEMANTIC_INDEX="$HOME/.openclaw/state/idx-semantic-index.jsonl"
 ```
 
@@ -57,12 +59,13 @@ node skills/semantic-property-search/scripts/search-similar-properties.mjs \
 ```bash
 npm test
 npm run test:semantic-db
-RUN_OPENAI_TESTS=1 npm run test:embeddings
+npm run test:embeddings
 ```
 
 Normal tests use deterministic mock embeddings and spend no API credits. The
-database suite builds a temporary index from live MLS rows. The OpenAI test is
-explicitly opt-in and requires `OPENAI_API_KEY`.
+database suite builds a temporary index from live MLS rows. The Gemini test is
+explicitly opt-in and requires `GEMINI_API_KEY`. To verify the optional OpenAI
+provider, run `npm run test:embeddings:openai` with `OPENAI_API_KEY` set.
 
 ## OpenClaw installation
 

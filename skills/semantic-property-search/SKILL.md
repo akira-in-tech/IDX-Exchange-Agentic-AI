@@ -1,8 +1,8 @@
 ---
 name: semantic-property-search
-description: Find the five active MLS listings most semantically similar to a free-text property description using OpenAI embeddings and cosine similarity.
+description: Find the five active MLS listings most semantically similar to a free-text property description using Gemini embeddings and cosine similarity.
 user-invocable: true
-metadata: { "openclaw": { "requires": { "bins": ["node"], "env": ["OPENAI_API_KEY"] } } }
+metadata: { "openclaw": { "requires": { "bins": ["node"], "env": ["GEMINI_API_KEY"] } } }
 ---
 
 # Semantic Property Search
@@ -30,6 +30,6 @@ with remarks and can incur material API usage.
 
 ## Safety
 
-- Read the OpenAI key only from `OPENAI_API_KEY`; never display or persist it.
+- Read the Gemini key only from `GEMINI_API_KEY`; never display or persist it.
 - Do not commit the generated JSONL index or MLS descriptions.
 - The skill reads MLS data only and caps search output at 20 listings.

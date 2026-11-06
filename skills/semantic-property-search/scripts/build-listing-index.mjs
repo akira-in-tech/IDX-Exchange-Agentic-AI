@@ -28,7 +28,7 @@ try {
   await main();
 } catch (error) {
   const safeMessage = error instanceof TypeError || error instanceof RangeError || error.message === usage()
-    || /OPENAI_API_KEY|Semantic index/.test(error.message)
+    || /GEMINI_API_KEY|OPENAI_API_KEY|Semantic index/.test(error.message)
     ? error.message
     : "Unable to build the semantic index. Check the API and database configuration.";
   process.stderr.write(`${safeMessage}\n`);

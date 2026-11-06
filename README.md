@@ -57,7 +57,7 @@ The `market-statistics` OpenClaw skill calculates median and average close price
 
 ## Week 6: Embeddings and Vector Search
 
-The `semantic-property-search` OpenClaw skill embeds active listing descriptions with `text-embedding-3-small`, ranks them with cosine similarity, rechecks live active status, and returns the five closest property cards. See [docs/week-6-embeddings-vector-search.md](docs/week-6-embeddings-vector-search.md).
+The `semantic-property-search` OpenClaw skill embeds active listing descriptions with Gemini `gemini-embedding-001` by default, ranks them with cosine similarity, rechecks live active status, and returns the five closest property cards. An OpenAI provider remains available as an optional fallback. See [docs/week-6-embeddings-vector-search.md](docs/week-6-embeddings-vector-search.md).
 
 ## Repository Structure
 
