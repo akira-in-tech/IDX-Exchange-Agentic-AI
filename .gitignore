@@ -14,6 +14,8 @@ node_modules/
 *.sql
 *.csv
 *.db
+*.embeddings.jsonl
+data/semantic-index*.jsonl
 
 # macOS
 .DS_Store

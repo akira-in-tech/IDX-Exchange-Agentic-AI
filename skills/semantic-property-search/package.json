@@ -1,0 +1,8 @@
+{
+  "name": "idx-semantic-property-search-skill",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "openai": "^7.53.0"
+  }
+}
