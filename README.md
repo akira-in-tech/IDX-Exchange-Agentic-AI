@@ -59,12 +59,21 @@ The `market-statistics` OpenClaw skill calculates median and average close price
 
 The `semantic-property-search` OpenClaw skill embeds active listing descriptions with Gemini `gemini-embedding-001` by default, ranks them with cosine similarity, rechecks live active status, and returns the five closest property cards. An OpenAI provider remains available as an optional fallback. See [docs/week-6-embeddings-vector-search.md](docs/week-6-embeddings-vector-search.md).
 
+## Week 7: Recommendation Engine
+
+The `property-recommendations` OpenClaw skill scores comparable active listings using structured property similarity (60 points) and embedding similarity (40 points). It returns up to five listings with price assessments based on recent `california_sold` transactions. See [docs/week-7-recommendations.md](docs/week-7-recommendations.md) for scoring, limits, tests, and demo commands.
+
+## Week 8: Retrieval-Augmented Generation
+
+The `real-estate-rag` OpenClaw skill indexes the Real Estate Data Analyst Primer, Trestle metadata, and a Week 5 market summary to answer questions with page citations. Exact `california_sold` column names come from the live MySQL schema. See [docs/week-8-rag.md](docs/week-8-rag.md) for sources, setup, tests, and demo commands.
+
 ## Repository Structure
 
 ```text
 src/        Application source code
+skills/     Installable OpenClaw skills and runtime scripts
 docs/       Architecture and project documentation
-scripts/    Utility and setup scripts
+tests/      Unit and opt-in integration tests
 ```
 
 ## Data and Security
@@ -79,7 +88,3 @@ The following are excluded from version control:
 - `.env` files
 - Database files
 - Credentials
-
-## Weeks 7 and 8
-
-Week 7 adds [hybrid property recommendations](docs/week-7-recommendations.md) with recent sold-comp pricing checks. Week 8 adds [document-grounded RAG](docs/week-8-rag.md) over the supplied Primer, Trestle metadata, and Week 5 market summaries.
