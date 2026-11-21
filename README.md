@@ -79,3 +79,7 @@ The following are excluded from version control:
 - `.env` files
 - Database files
 - Credentials
+
+## Weeks 7 and 8
+
+Week 7 adds [hybrid property recommendations](docs/week-7-recommendations.md) with recent sold-comp pricing checks. Week 8 adds [document-grounded RAG](docs/week-8-rag.md) over the supplied Primer, Trestle metadata, and Week 5 market summaries.
