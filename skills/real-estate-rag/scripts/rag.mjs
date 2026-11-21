@@ -8,6 +8,7 @@ import { getMarketStatistics } from "../../market-statistics/scripts/market-quer
 import { formatMarketSummary } from "../../market-statistics/scripts/format-market-summary.mjs";
 
 export const INDEX_PATH = `${homedir()}/.openclaw/state/idx-rag-index.json`;
+const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 export function chunkText(text, size = 600, overlap = 100) {
   if (!Number.isInteger(size) || !Number.isInteger(overlap) || size <= overlap || overlap < 0) throw new Error("Invalid chunk size or overlap");
   const chunks = [];
@@ -25,8 +26,19 @@ export async function indexDocuments(documents, embedder = createEmbeddingClient
   if (!entries.length) throw new Error("No source text to index");
   for (let start = 0; start < entries.length; start += 20) {
     const batch = entries.slice(start, start + 20);
-    const vectors = await embedder.embedMany(batch.map((entry) => entry.chunk));
+    let vectors;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        vectors = await embedder.embedMany(batch.map((entry) => entry.chunk));
+        break;
+      } catch (error) {
+        if (attempt === 4 || !/429|RESOURCE_EXHAUSTED|quota/i.test(String(error.message))) throw error;
+        await delay(15_000 * (attempt + 1));
+      }
+    }
     batch.forEach((entry, index) => { entry.embedding = vectors[index]; });
+    // Gemini's free tier counts each text in a batch toward its per-minute cap.
+    if (start + 20 < entries.length && embedder.provider === "gemini") await delay(13_000);
   }
   await mkdir(dirname(path), { recursive: true, mode: 0o700 });
   const temporary = `${path}.${process.pid}.tmp`;
@@ -48,7 +60,7 @@ export async function retrieve(query, { path = INDEX_PATH, embedder = createEmbe
 export async function answerQuestion(question, { embedder = createEmbeddingClient(), generator, path = INDEX_PATH } = {}) {
   const matches = await retrieve(question, { embedder, path });
   const context = matches.map((entry, index) => `[${index + 1}] ${entry.title}, page ${entry.page}: ${entry.chunk}`).join("\n\n");
-  const prompt = `Answer the question using only the numbered excerpts. Cite each factual claim with [number]. If the excerpts do not answer it, say the sources do not establish the answer.\n\n${context}\n\nQuestion: ${question}`;
+  const prompt = `Answer the question using only the numbered excerpts. Cite each factual claim with [number]. Treat list-to-close ratio as the sale-to-list ratio when the sources define that ratio. If the excerpts do not answer it, say the sources do not establish the answer.\n\n${context}\n\nQuestion: ${question}`;
   const answer = generator ? await generator(prompt) : `Relevant source excerpts:\n${context}`;
   return { question, answer, sources: matches.map(({ title, page, score }, i) => ({ citation: `[${i + 1}]`, title, page, score })) };
 }
