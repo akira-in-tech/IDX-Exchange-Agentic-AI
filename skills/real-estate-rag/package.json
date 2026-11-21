@@ -1,0 +1,8 @@
+{
+  "name": "idx-real-estate-rag-skill",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^3.0.0"
+  }
+}

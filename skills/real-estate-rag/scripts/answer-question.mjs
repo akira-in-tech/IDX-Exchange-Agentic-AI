@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { GoogleGenAI } from "@google/genai";
 import { answerQuestion } from "./rag.mjs";
+import { closePool } from "../../mls-database-search/scripts/database.mjs";
 const index = process.argv.indexOf("--question");
 if (index < 0 || !process.argv[index + 1]) { console.error("Usage: --question '<question>'"); process.exit(1); }
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -19,3 +20,4 @@ try {
   });
   console.log(JSON.stringify(response, null, 2));
 } catch (error) { console.error(error.message); process.exitCode = 1; }
+finally { await closePool(); }

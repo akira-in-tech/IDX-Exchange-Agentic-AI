@@ -46,3 +46,22 @@ test("Week 8 chunk overlap and cited retrieval", async () => {
   assert.equal(result.sources[0].page, 2);
   assert.match(result.answer, /\[1\]/);
 });
+test("Week 8 reads exact california_sold columns from the live schema adapter", async () => {
+  const result = await answerQuestion("What columns are in california_sold?", {
+    queryFn: async (sql: string, params: string[]) => {
+      assert.match(sql, /information_schema\.COLUMNS/);
+      assert.deepEqual(params, ["california_sold"]);
+      return [{ COLUMN_NAME: "City" }, { COLUMN_NAME: "ClosePrice" }];
+    },
+  });
+  assert.match(result.answer, /City, ClosePrice \[1\]/);
+});
+test("Week 8 answers DOM from its cited Primer excerpt on generator 503", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "idx-week8-fallback-"));
+  const path = join(dir, "index.json");
+  const embedder = { provider: "mock", model: "mock", embedMany: async () => [[1, 0]], embedOne: async () => [1, 0] };
+  await indexDocuments([{ title: "Real Estate Data Analyst Primer", pages: [{ page: 7, text: "DOM Days on Market Days from listing date to Pending or Close for a single listing period" }] }], embedder, path);
+  const result = await answerQuestion("What does DOM mean?", { embedder, path, generator: async () => { throw new Error("503 UNAVAILABLE"); } });
+  assert.match(result.answer, /Days on Market.*\[1\]/);
+  assert.equal(result.sources[0].page, 7);
+});

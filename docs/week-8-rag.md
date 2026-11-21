@@ -10,3 +10,5 @@ node --env-file=.env skills/real-estate-rag/scripts/answer-question.mjs --questi
 ```
 
 The PDF extraction uses the repository Python environment (`venv/bin/python`) with `pypdf`. Indexing sends document excerpts and the market summary to Gemini; run it only when that data transfer is approved. The generated index stays in `~/.openclaw/state/` and is not committed.
+
+For the exact `california_sold` column list, the assistant queries the local MySQL `information_schema` and cites that live schema. DOM uses the indexed Primer; if Gemini generation returns 503, the assistant gives the Primer-backed definition directly with its page citation.
